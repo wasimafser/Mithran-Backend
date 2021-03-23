@@ -1,22 +1,15 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 
+from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
         fields = (
-            'username',
             'first_name',
             'last_name',
+            'full_name',
             'email',
-            'password',
+            'password'
         )
-        validators = [
-            UniqueTogetherValidator(
-                queryset=User.objects.all(),
-                fields=['username', 'email']
-            )
-        ]
