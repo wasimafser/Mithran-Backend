@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.views.static import serve
 
-from rest_framework.authtoken import views
+def flutter_redirect(request, resource):
+    return serve(request, resource, settings.FLUTTER_WEB_DIR)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +31,6 @@ urlpatterns = [
             namespace='user_management'
         )
     ),
-    path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
-    
+    path('', lambda request: flutter_redirect(request, 'index.html')),
+    path('<path:resource>', flutter_redirect),
 ]
