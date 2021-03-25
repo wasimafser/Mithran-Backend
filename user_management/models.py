@@ -1,8 +1,9 @@
 from django.db import models
+from django.db.models.signals import post_save
 from django.contrib.auth.models import AbstractUser
+from django.dispatch import receiver
 
 from django.contrib.auth.base_user import BaseUserManager
-
 
 # Create your models here.
 
@@ -50,3 +51,41 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class Profile(models.Model):
+    contact_number = models.CharField(max_length=20)
+    alternate_contact_number = models.CharField(max_length=20, null=True, blank=True)
+    door_number = models.CharField(max_length=100)
+    address = models.CharField(max_length=225)
+
+    class Meta:
+        abstract = True
+
+
+class Consumer(Profile):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='+')
+
+    def __str__(self):
+        return self.user.full_name
+
+
+class WorkerSpecialization(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Worker(Profile):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='+')
+    specializations = models.ManyToManyField(WorkerSpecialization)
+
+    def __str__(self):
+        return self.user.full_name
+
+
+# @receiver(post_save, sender=User)
+# def create_profile(sender, instance, created, **kwargs=True):
+#     if created:
+#
