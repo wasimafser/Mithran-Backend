@@ -4,7 +4,7 @@ from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(required=False)
-    password = serializers.CharField(read_only=True)
+    # password = serializers.CharField(read_only=True)
 
     def create(self, validated_data):
         user = User.objects.create(**validated_data)
@@ -14,7 +14,11 @@ class UserSerializer(serializers.ModelSerializer):
         else:
             user.full_name = f"{user.first_name}"
 
-        user.set_password("mithran@123")
+        password = validated_data.get('password', None)
+        if password:
+            user.set_password(password)
+        else:
+            user.set_password("mithran@123")
         user.save()
 
         return user
