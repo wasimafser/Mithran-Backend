@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from user_management.models import Consumer, Worker, WorkerSpecialization
 
@@ -28,3 +30,11 @@ class Service(models.Model):
 
     def __str__(self):
         return f"{self.requested_by.user.full_name} - {self.type.name}"
+
+
+@receiver(post_save, sender=Service)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        service = Service.objects.get(pk=instance.id)
+        service.status = ServiceStatus.objects.get(pk=2)
+        service.save()
