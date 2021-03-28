@@ -11,7 +11,7 @@ from user_management.models import Consumer, Worker, WorkerSpecialization
 #         return self.name
 
 
-class Status(models.Model):
+class ServiceStatus(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
@@ -22,9 +22,9 @@ class Service(models.Model):
     requested_by = models.ForeignKey(Consumer, on_delete=models.CASCADE, related_name='+')
     assigned_to = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name='+', blank=True, null=True)
     type = models.ForeignKey(WorkerSpecialization, on_delete=models.SET_NULL, related_name='+', blank=True, null=True)
-    status = models.ForeignKey(Status, on_delete=models.SET_NULL, related_name='+', blank=True, null=True)
+    status = models.ForeignKey(ServiceStatus, on_delete=models.SET_NULL, related_name='+', blank=True, null=True)
     requested_on = models.DateTimeField(auto_now_add=True)
     comments = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.requested_by.full_name} - {self.type.name}"
+        return f"{self.requested_by.user.full_name} - {self.type.name}"

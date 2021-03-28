@@ -31,6 +31,13 @@ urlpatterns = [
             namespace='user_management'
         )
     ),
+    path(
+        'service/',
+        include(
+            'service.urls',
+            namespace='service'
+        )
+    ),
     path('', lambda request: flutter_redirect(request, 'index.html')),
     path('<path:resource>', flutter_redirect),
 ]
