@@ -63,8 +63,18 @@ class Profile(models.Model):
         abstract = True
 
 
+class Organization(models.Model):
+    name = models.CharField(max_length=255)
+    code = models.CharField(max_length=10, unique=True)
+    url = models.URLField(max_length=225)
+
+    def __str__(self):
+        return f"{self.name} - {self.code}"
+
+
 class Consumer(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='+')
+    organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, related_name='+', null=True, blank=True)
 
     def __str__(self):
         return self.user.full_name
@@ -80,6 +90,7 @@ class WorkerSpecialization(models.Model):
 class Worker(Profile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='+')
     specializations = models.ManyToManyField(WorkerSpecialization)
+    organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, related_name='+', null=True, blank=True)
 
     def __str__(self):
         return self.user.full_name

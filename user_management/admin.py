@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User, Consumer, Worker, WorkerSpecialization
+from .models import User, Consumer, Worker, WorkerSpecialization, Organization
 
 # Register your models here.
 
@@ -27,3 +27,4 @@ admin.site.register(User, CustomUserAdmin)
 admin.site.register(Consumer)
 admin.site.register(Worker)
 admin.site.register(WorkerSpecialization)
+admin.site.register(Organization)

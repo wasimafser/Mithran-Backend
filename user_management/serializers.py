@@ -1,9 +1,10 @@
 from rest_framework import serializers
 
-from .models import User
+from .models import User, Consumer, Worker, Organization
 
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(required=False)
+    id = serializers.IntegerField(read_only=True)
     # password = serializers.CharField(read_only=True)
 
     def create(self, validated_data):
@@ -26,9 +27,18 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
+            'id',
             'first_name',
             'last_name',
             'full_name',
             'email',
             'password'
         )
+
+
+class ConsumerSerializer(serializers.ModelSerializer):
+    organization = serializers.SlugRelatedField(queryset=Organization.objects.all(), slug_field='code')
+
+    class Meta:
+        model = Consumer
+        fields = '__all__'
