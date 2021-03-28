@@ -65181,7 +65181,7 @@ A.h0.prototype={
 va:function(a,b){var s=0,r=P.W(t.z),q,p=this
 var $async$va=P.R(function(c,d){if(c===1)return P.T(d,r)
 while(true)switch(s){case 0:s=3
-return P.S(p.a.Ne("http://127.0.0.1:8000/user_management/api-token-auth/",C.V.uD(P.an(["email",a,"password",b],t.Q,t.z),null)),$async$va)
+return P.S(p.a.Ne("https://waseemafser.pythonanywhere.com/user_management/api-token-auth/",C.V.uD(P.an(["email",a,"password",b],t.Q,t.z),null)),$async$va)
 case 3:q=d
 s=1
 break
@@ -65190,7 +65190,7 @@ return P.V($async$va,r)},
 rd:function(a,b,c,d){var s=0,r=P.W(t.z),q,p=this
 var $async$rd=P.R(function(e,f){if(e===1)return P.T(f,r)
 while(true)switch(s){case 0:s=3
-return P.S(p.a.Nf("http://127.0.0.1:8000/user_management/user/",C.V.uD(P.an(["email",a,"first_name",b,"last_name",c,"password",d],t.Q,t.z),null),!0),$async$rd)
+return P.S(p.a.Nf("https://waseemafser.pythonanywhere.com/user_management/user/",C.V.uD(P.an(["email",a,"first_name",b,"last_name",c,"password",d],t.Q,t.z),null),!0),$async$rd)
 case 3:q=f
 s=1
 break
@@ -65199,7 +65199,7 @@ return P.V($async$rd,r)},
 qV:function(a){var s=0,r=P.W(t.z),q,p=this
 var $async$qV=P.R(function(b,c){if(b===1)return P.T(c,r)
 while(true)switch(s){case 0:s=3
-return P.S(p.a.qG(0,"http://127.0.0.1:8000/user_management/consumer/?user_id="+H.b(a)),$async$qV)
+return P.S(p.a.qG(0,"https://waseemafser.pythonanywhere.com/user_management/consumer/?user_id="+H.b(a)),$async$qV)
 case 3:q=c
 s=1
 break
@@ -65208,7 +65208,7 @@ return P.V($async$qV,r)},
 vx:function(a){var s=0,r=P.W(t.z),q,p=this
 var $async$vx=P.R(function(b,c){if(b===1)return P.T(c,r)
 while(true)switch(s){case 0:s=3
-return P.S(p.a.a9Q(0,"http://127.0.0.1:8000/user_management/consumer/",a),$async$vx)
+return P.S(p.a.a9Q(0,"https://waseemafser.pythonanywhere.com/user_management/consumer/",a),$async$vx)
 case 3:q=c
 s=1
 break
@@ -65217,7 +65217,7 @@ return P.V($async$vx,r)},
 hj:function(){var s=0,r=P.W(t.z),q,p=this
 var $async$hj=P.R(function(a,b){if(a===1)return P.T(b,r)
 while(true)switch(s){case 0:s=3
-return P.S(p.a.qG(0,"http://127.0.0.1:8000/service/type/"),$async$hj)
+return P.S(p.a.qG(0,"https://waseemafser.pythonanywhere.com/service/type/"),$async$hj)
 case 3:q=b
 s=1
 break
@@ -65226,7 +65226,7 @@ return P.V($async$hj,r)},
 qW:function(){var s=0,r=P.W(t.z),q,p=this
 var $async$qW=P.R(function(a,b){if(a===1)return P.T(b,r)
 while(true)switch(s){case 0:s=3
-return P.S(p.a.qG(0,"http://127.0.0.1:8000/service/status/"),$async$qW)
+return P.S(p.a.qG(0,"https://waseemafser.pythonanywhere.com/service/status/"),$async$qW)
 case 3:q=b
 s=1
 break
@@ -65235,7 +65235,7 @@ return P.V($async$qW,r)},
 vu:function(a){var s=0,r=P.W(t.z),q,p=this
 var $async$vu=P.R(function(b,c){if(b===1)return P.T(c,r)
 while(true)switch(s){case 0:s=3
-return P.S(p.a.Ne("http://127.0.0.1:8000/service/api/",a),$async$vu)
+return P.S(p.a.Ne("https://waseemafser.pythonanywhere.com/service/api/",a),$async$vu)
 case 3:q=c
 s=1
 break
@@ -65244,7 +65244,7 @@ return P.V($async$vu,r)},
 qX:function(a){var s=0,r=P.W(t.z),q,p=this
 var $async$qX=P.R(function(b,c){if(b===1)return P.T(c,r)
 while(true)switch(s){case 0:s=3
-return P.S(p.a.qG(0,"http://127.0.0.1:8000/service/filter/?requested_by="+H.b(a)),$async$qX)
+return P.S(p.a.qG(0,"https://waseemafser.pythonanywhere.com/service/filter/?requested_by="+H.b(a)),$async$qX)
 case 3:q=c
 s=1
 break
