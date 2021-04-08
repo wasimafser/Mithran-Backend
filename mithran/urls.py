@@ -41,3 +41,5 @@ urlpatterns = [
     path('', lambda request: flutter_redirect(request, 'index.html')),
     path('<path:resource>', flutter_redirect),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
