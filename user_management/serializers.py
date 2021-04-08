@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import User, Consumer, Worker, Organization
+from .models import User, Profile, Profile, Organization
 
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(required=False)
@@ -32,13 +32,20 @@ class UserSerializer(serializers.ModelSerializer):
             'last_name',
             'full_name',
             'email',
-            'password'
+            'password',
+            'type',
         )
 
 
-class ConsumerSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
+    class UserComapact(serializers.ModelSerializer):
+        class Meta:
+            model = User
+            fields = ('id', 'full_name',)
+
     organization = serializers.SlugRelatedField(queryset=Organization.objects.all(), slug_field='code')
+    user = UserComapact(read_only=True)
 
     class Meta:
-        model = Consumer
+        model = Profile
         fields = '__all__'

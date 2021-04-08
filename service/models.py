@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from user_management.models import Consumer, Worker, WorkerSpecialization
+from user_management.models import Profile, Profile, WorkerSpecialization
 
 # Create your models here.
 
@@ -21,8 +21,8 @@ class ServiceStatus(models.Model):
 
 
 class Service(models.Model):
-    requested_by = models.ForeignKey(Consumer, on_delete=models.CASCADE, related_name='+')
-    assigned_to = models.ForeignKey(Worker, on_delete=models.CASCADE, related_name='+', blank=True, null=True)
+    requested_by = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='+')
+    assigned_to = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='+', blank=True, null=True)
     type = models.ForeignKey(WorkerSpecialization, on_delete=models.SET_NULL, related_name='+', blank=True, null=True)
     status = models.ForeignKey(ServiceStatus, on_delete=models.SET_NULL, related_name='+', blank=True, null=True)
     requested_on = models.DateTimeField(auto_now_add=True)

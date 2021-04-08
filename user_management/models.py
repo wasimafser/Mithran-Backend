@@ -38,11 +38,19 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    USER_TYPES = (
+        ('worker', 'WORKER'),
+        ('consumer', 'CONSUMER'),
+        ('security', 'SECURITY'),
+        ('admin', 'ADMIN'),
+    )
+
     username = None
     email = models.EmailField("Email Address", unique=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     full_name = models.CharField(max_length=255)
+    type = models.CharField(max_length=10, choices=USER_TYPES, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name']
@@ -53,14 +61,11 @@ class User(AbstractUser):
         return self.email
 
 
-class Profile(models.Model):
-    contact_number = models.CharField(max_length=20)
-    alternate_contact_number = models.CharField(max_length=20, null=True, blank=True)
-    door_number = models.CharField(max_length=100)
-    address = models.CharField(max_length=225)
+class WorkerSpecialization(models.Model):
+    name = models.CharField(max_length=100, unique=True)
 
-    class Meta:
-        abstract = True
+    def __str__(self):
+        return self.name
 
 
 class Organization(models.Model):
@@ -72,28 +77,18 @@ class Organization(models.Model):
         return f"{self.name} - {self.code}"
 
 
-class Consumer(Profile):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='+')
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    contact_number = models.CharField(max_length=20)
+    alternate_contact_number = models.CharField(max_length=20, null=True, blank=True)
+    door_number = models.CharField(max_length=100)
+    address = models.CharField(max_length=225)
     organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, related_name='+', null=True, blank=True)
+    specializations = models.ManyToManyField(WorkerSpecialization, blank=True)
 
     def __str__(self):
         return self.user.full_name
 
-
-class WorkerSpecialization(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Worker(Profile):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='+')
-    specializations = models.ManyToManyField(WorkerSpecialization)
-    organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, related_name='+', null=True, blank=True)
-
-    def __str__(self):
-        return self.user.full_name
 
 
 # @receiver(post_save, sender=User)

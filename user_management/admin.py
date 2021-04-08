@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import User, Consumer, Worker, WorkerSpecialization, Organization
+from .models import User, Profile, WorkerSpecialization, Organization
 
 # Register your models here.
 
@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
     list_display = ('email', 'is_superuser', 'is_active',)
     list_filter = ('email', 'is_superuser', 'is_active',)
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'full_name')}),
+        (None, {'fields': ('email', 'password', 'first_name', 'last_name', 'full_name', 'type')}),
         ('Permissions', {'fields': ('is_superuser', 'is_active')}),
     )
     add_fieldsets = (
@@ -24,7 +24,6 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.register(User, CustomUserAdmin)
 
-admin.site.register(Consumer)
-admin.site.register(Worker)
+admin.site.register(Profile)
 admin.site.register(WorkerSpecialization)
 admin.site.register(Organization)
