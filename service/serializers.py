@@ -1,7 +1,8 @@
 from rest_framework import serializers
+from user_management.models import (Organization, Profile, User,
+                                    WorkerSpecialization)
 
-from .models import Service, ServiceStatus
-from user_management.models import Profile, User, WorkerSpecialization, Organization
+from .models import *
 
 
 class ServiceSerializer(serializers.ModelSerializer):
@@ -35,4 +36,11 @@ class ServiceStatusSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ServiceStatus
+        fields = '__all__'
+
+
+class ServiceStateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ServiceState
         fields = '__all__'

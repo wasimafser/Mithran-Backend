@@ -1,12 +1,12 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status, generics, filters
-from rest_framework.permissions import IsAdminUser, AllowAny
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics, status
+from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from user_management.models import Profile, WorkerSpecialization
 
-from .serializers import *
 from .models import Service, ServiceStatus
-from user_management.models import WorkerSpecialization, Profile
+from .serializers import *
 
 
 class ServiceAPI(APIView):
@@ -56,3 +56,20 @@ class ServiceStatusAPI(APIView):
         statuss = ServiceStatus.objects.all()
         serializer = ServiceStatusSerializer(statuss, many=True)
         return Response(serializer.data)
+
+
+class ServiceStateAPI(APIView):
+
+    def get(self, request, format=None):
+        service_id = request.query_params.get('service_id', None)
+        service_state = ServiceState.objects.get(service__id=service_id)
+        serializer = ServiceStateSerializer(service_state)
+        return Response(serializer.data)
+
+    def put(self, request, format=None):
+        service_state = ServiceState.objects.get(service=request.data['service'])
+        serializer = ServiceStateSerializer(service_state, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
