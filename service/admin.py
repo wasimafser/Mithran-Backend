@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(ServiceStatus)
 admin.site.register(Service)
 admin.site.register(ServiceState)
+admin.site.register(ServiceFeedback)

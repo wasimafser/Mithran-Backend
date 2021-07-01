@@ -3,10 +3,13 @@ from rest_framework import filters, generics, status
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from user_management.models import Profile, WorkerSpecialization
+from rest_framework import generics
+from user_management.models import Profile, User, WorkerSpecialization, Organization
 
 from .models import Service, ServiceStatus
 from .serializers import *
+
+import datetime
 
 
 class ServiceAPI(APIView):
@@ -73,3 +76,43 @@ class ServiceStateAPI(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ServiceReportAPI(APIView):
+
+    def get(self, request, format=None):
+        workers = User.objects.filter(profile__organization__id=1, type='worker')
+        data = []
+        for worker in workers:
+            _data = {
+                'user_id': worker.id,
+                'full_name': worker.full_name,
+                'total_services': 0,
+                'total_work_time': datetime.timedelta(0, 0, 0),
+            }
+            for serivce in Service.objects.filter(assigned_to__user=worker):
+                _data['total_services'] += 1
+                if serivce.total_work_time:
+                    _data['total_work_time'] += serivce.total_work_time
+
+            data.append(_data)
+
+        return Response(data)
+
+
+class ServiceFeedbackAPI(generics.ListCreateAPIView):
+    queryset = ServiceFeedback.objects.all()
+    serializer_class = ServiceFeedbackSerializer
+
+    def get_queryset(self):
+        service_id = self.kwargs['service_id']
+        return ServiceFeedback.objects.filter(service__id=service_id)
+
+
+class ServiceUserReportAPI(APIView):
+
+    def get(self, request, user_id, format=None):
+        services = Service.objects.filter(assigned_to__user__id=user_id)
+        serializer = ServiceSerializer(services, many=True)
+        return Response(serializer.data)
+

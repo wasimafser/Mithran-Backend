@@ -38,6 +38,15 @@ class Service(models.Model):
         return f"{self.requested_by.user.full_name} - {self.type.name}"
 
 
+class ServiceFeedback(models.Model):
+    service = models.OneToOneField(Service, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
+    comment = models.TextField()
+
+    def __str__(self):
+        return f"{self.service} - {self.rating}"
+
+
 class ServiceState(models.Model):
     service = models.OneToOneField(Service, on_delete=models.CASCADE)
     consumer_started = models.BooleanField(default=False)
@@ -53,9 +62,13 @@ def create_profile(sender, instance, created, **kwargs):
         service.status = ServiceStatus.objects.get(name__icontains='ASSIGNED')
         service.save()
 
+        # CREATE A NEW STATE
         ServiceState.objects.create(
             service=service
         )
+
+        # CREATE FEEDBACK
+        ServiceFeedback.objects.create(service=instance)
     print(instance)
 
 

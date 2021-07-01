@@ -44,3 +44,10 @@ class ServiceStateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceState
         fields = '__all__'
+
+
+class ServiceFeedbackSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ServiceFeedback
+        fields = '__all__'
